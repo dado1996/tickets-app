@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogHeader } from "@/components/ui/dialog";
 import {
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@radix-ui/react-dialog";
@@ -26,6 +27,7 @@ export default withPageAuthRequired(function Tickets() {
       const response = await fetch("/api/tickets");
       const tickets = await response.json();
       setTickets(tickets);
+      console.log(tickets);
     }
   }, []);
 
@@ -37,9 +39,12 @@ export default withPageAuthRequired(function Tickets() {
           <DialogTrigger asChild>
             <Button onClick={() => setOpenForm(true)}>New Ticket</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Create a New Ticket</DialogTitle>
+              <DialogDescription>
+                Create a new ticket for your app here!
+              </DialogDescription>
             </DialogHeader>
             <NewTicketForm open={openForm} setOpen={setOpenForm} />
           </DialogContent>

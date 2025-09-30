@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "ingest": ""
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.10.0",

@@ -4,6 +4,7 @@ import { Select } from "@/components/ui/select";
 import { Ticket, TicketStatus } from "@prisma/client";
 import {
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -24,15 +25,17 @@ export function StatusSelect({ ticket }: { ticket: Ticket }) {
 
   return (
     <Select defaultValue={ticket.status} onValueChange={handleStatusChange}>
-      <SelectTrigger className="w-[150px]">
+      <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Change status" />
       </SelectTrigger>
       <SelectContent>
-        {Object.values(TicketStatus).map((status) => (
-          <SelectItem key={status} value={status}>
-            {status}
-          </SelectItem>
-        ))}
+        <SelectGroup>
+          {Object.values(TicketStatus).map((status) => (
+            <SelectItem key={status} value={status}>
+              {status}
+            </SelectItem>
+          ))}
+        </SelectGroup>
       </SelectContent>
     </Select>
   );

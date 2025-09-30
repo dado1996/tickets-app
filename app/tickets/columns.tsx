@@ -30,7 +30,6 @@ export const columns: ColumnDef<Ticket>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      // Pass the ticket to the custom select component
       return <StatusSelect ticket={row.original} />;
     },
   },
@@ -39,7 +38,6 @@ export const columns: ColumnDef<Ticket>[] = [
     header: "Priority",
     cell: ({ row }) => {
       const priority = row.getValue("priority") as string;
-      // Use Badges for better visual cues
       return (
         <Badge
           variant={
@@ -54,10 +52,10 @@ export const columns: ColumnDef<Ticket>[] = [
     },
   },
   {
-    accessorKey: "created_at",
+    accessorKey: "createdAt",
     header: "Created",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("created_at"));
+      const date = new Date(row.getValue("createdAt"));
       return <div>{date.toLocaleDateString()}</div>;
     },
   },

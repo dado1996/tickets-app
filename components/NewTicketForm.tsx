@@ -13,6 +13,17 @@ import {
   FormMessage,
 } from "./ui/form";
 import { useRouter } from "next/navigation";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
+import { Select } from "./ui/select";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
+import { TicketPriority, TicketType } from "@prisma/client";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -35,6 +46,7 @@ export function NewTicketForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
     await fetch("/api/tickets", {
       method: "POST",
       body: JSON.stringify(values),
@@ -51,11 +63,11 @@ export function NewTicketForm({
       >
         <FormField
           name="title"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel />
+              <FormLabel>Title</FormLabel>
               <FormControl>
-                <input type="text" name="title" id="title" />
+                <Input type="text" id="title" {...field} />
               </FormControl>
               <FormDescription />
               <FormMessage />
@@ -64,11 +76,11 @@ export function NewTicketForm({
         ></FormField>
         <FormField
           name="description"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel />
+              <FormLabel>Description</FormLabel>
               <FormControl>
-                <textarea name="description" id="description" />
+                <Textarea id="description" {...field} />
               </FormControl>
               <FormDescription />
               <FormMessage />
@@ -77,12 +89,23 @@ export function NewTicketForm({
         ></FormField>
         <FormField
           name="priority"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel />
-              <FormControl>
-                <input type="text" name="priority" id="priority" />
-              </FormControl>
+              <FormLabel>Priority</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.values(TicketPriority).map((priority) => (
+                    <SelectItem key={priority} value={priority}>
+                      {priority}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormDescription />
               <FormMessage />
             </FormItem>
@@ -90,17 +113,29 @@ export function NewTicketForm({
         ></FormField>
         <FormField
           name="type"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel />
-              <FormControl>
-                <input type="text" name="type" id="type" />
-              </FormControl>
+              <FormLabel>Type</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.values(TicketType).map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormDescription />
               <FormMessage />
             </FormItem>
           )}
         ></FormField>
+        <Button type="submit">Create Ticket</Button>
       </form>
     </Form>
   );
